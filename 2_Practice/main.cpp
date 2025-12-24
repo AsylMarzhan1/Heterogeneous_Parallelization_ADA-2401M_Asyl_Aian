@@ -1,6 +1,6 @@
 #include <iostream>
 
-// Функции из других файлов
+// Р¤СѓРЅРєС†РёРё РёР· РґСЂСѓРіРёС… С„Р°Р№Р»РѕРІ
 void run_task1();
 void run_task2();
 void run_task3();
@@ -8,22 +8,22 @@ void run_task3();
 int main() {
     setlocale(LC_ALL, "Russian");
     while (true) {
-        std::cout << "1 - Задача 1\n";
-        std::cout << "2 - Задача 2\n";
-        std::cout << "3 - Задача 3\n";
-        std::cout << "0 - Выход\n";
-        std::cout << "Выбор: ";
+        std::cout << "1 - Р—Р°РґР°С‡Р° 1\n";
+        std::cout << "2 - Р—Р°РґР°С‡Р° 2\n";
+        std::cout << "3 - Р—Р°РґР°С‡Р° 3\n";
+        std::cout << "0 - Р’С‹С…РѕРґ\n";
+        std::cout << "Р’С‹Р±РѕСЂ: ";
 
         int choice;
         if (!(std::cin >> choice)) {
             std::cin.clear();
             std::cin.ignore(100000, '\n');
-            std::cout << "Ошибка ввода. Повторите.\n";
+            std::cout << "РћС€РёР±РєР° РІРІРѕРґР°. РџРѕРІС‚РѕСЂРёС‚Рµ.\n";
             continue;
         }
 
         if (choice == 0) {
-            std::cout << "Выход\n";
+            std::cout << "Р’С‹С…РѕРґ\n";
             break;
         }
 
@@ -32,7 +32,7 @@ int main() {
         case 2: run_task2(); break;
         case 3: run_task3(); break;
         default:
-            std::cout << "Неверный выбор. Повторите.\n";
+            std::cout << "РќРµРІРµСЂРЅС‹Р№ РІС‹Р±РѕСЂ. РџРѕРІС‚РѕСЂРёС‚Рµ.\n";
             break;
         }
     }
