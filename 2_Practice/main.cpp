@@ -10,7 +10,6 @@ int main() {
     while (true) {
         std::cout << "1 - Задача 1\n";
         std::cout << "2 - Задача 2\n";
-        std::cout << "3 - Задача 3\n";
         std::cout << "0 - Выход\n";
         std::cout << "Выбор: ";
 
@@ -30,7 +29,6 @@ int main() {
         switch (choice) {
         case 1: run_task1(); break;
         case 2: run_task2(); break;
-        case 3: run_task3(); break;
         default:
             std::cout << "Неверный выбор. Повторите.\n";
             break;
@@ -38,3 +36,4 @@ int main() {
     }
     return 0;
 }
+
