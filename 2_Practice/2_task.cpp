@@ -3,20 +3,20 @@
 #include <random>
 #include <chrono>
 #include <algorithm>
-// Подключение OpenMP
+// РџРѕРґРєР»СЋС‡РµРЅРёРµ OpenMP
 #ifdef _OPENMP
 #include <omp.h>
 #endif
 
 using namespace std;
-// Заполняет вектор случайными числами в диапазоне [lo, hi]
+// Р—Р°РїРѕР»РЅСЏРµС‚ РІРµРєС‚РѕСЂ СЃР»СѓС‡Р°Р№РЅС‹РјРё С‡РёСЃР»Р°РјРё РІ РґРёР°РїР°Р·РѕРЅРµ [lo, hi]
 static void fillRandom(vector<int>& a, int lo = 1, int hi = 1000000) {
-    static random_device rd; // Источник энтропии
-    static mt19937 gen(rd()); // Генератор
+    static random_device rd; // РСЃС‚РѕС‡РЅРёРє СЌРЅС‚СЂРѕРїРёРё
+    static mt19937 gen(rd()); // Р“РµРЅРµСЂР°С‚РѕСЂ
     uniform_int_distribution<int> dist(lo, hi);
-    for (auto& x : a) x = dist(gen); // Присваиваем каждому элементу случайное значение
+    for (auto& x : a) x = dist(gen); // РџСЂРёСЃРІР°РёРІР°РµРј РєР°Р¶РґРѕРјСѓ СЌР»РµРјРµРЅС‚Сѓ СЃР»СѓС‡Р°Р№РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
 }
-// Измерение времени выполнения
+// РР·РјРµСЂРµРЅРёРµ РІСЂРµРјРµРЅРё РІС‹РїРѕР»РЅРµРЅРёСЏ
 template <class Func>
 static long long timeMs(Func f) {
     auto t0 = chrono::high_resolution_clock::now();
@@ -24,78 +24,78 @@ static long long timeMs(Func f) {
     auto t1 = chrono::high_resolution_clock::now();
     return chrono::duration_cast<chrono::milliseconds>(t1 - t0).count();
 }
-// Последовательная сортировка пузырьком
+// РџРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅР°СЏ СЃРѕСЂС‚РёСЂРѕРІРєР° РїСѓР·С‹СЂСЊРєРѕРј
 static void bubbleSortSeq(vector<int>& a) {
-    int n = (int)a.size(); // Размер массива
+    int n = (int)a.size(); // Р Р°Р·РјРµСЂ РјР°СЃСЃРёРІР°
     for (int pass = 0; pass < n - 1; pass++) {
-        bool swapped = false; // Флаг наличия обменов за проход
+        bool swapped = false; // Р¤Р»Р°Рі РЅР°Р»РёС‡РёСЏ РѕР±РјРµРЅРѕРІ Р·Р° РїСЂРѕС…РѕРґ
         for (int j = 0; j < n - 1 - pass; j++) {
-            if (a[j] > a[j + 1]) { // Сравнение соседних элементов
+            if (a[j] > a[j + 1]) { // РЎСЂР°РІРЅРµРЅРёРµ СЃРѕСЃРµРґРЅРёС… СЌР»РµРјРµРЅС‚РѕРІ
                 swap(a[j], a[j + 1]);
                 swapped = true;
             }
         }
-        if (!swapped) break; // Если обменов не было — массив уже отсортирован
+        if (!swapped) break; // Р•СЃР»Рё РѕР±РјРµРЅРѕРІ РЅРµ Р±С‹Р»Рѕ вЂ” РјР°СЃСЃРёРІ СѓР¶Рµ РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅ
     }
 }
-// Последовательная сортировка выбором
+// РџРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅР°СЏ СЃРѕСЂС‚РёСЂРѕРІРєР° РІС‹Р±РѕСЂРѕРј
 static void selectionSortSeq(vector<int>& a) {
     int n = (int)a.size();
     for (int i = 0; i < n - 1; i++) {
-        int minIdx = i; // Индекс текущего минимального элемента
+        int minIdx = i; // РРЅРґРµРєСЃ С‚РµРєСѓС‰РµРіРѕ РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
         for (int j = i + 1; j < n; j++)
-            if (a[j] < a[minIdx]) minIdx = j; // Поиск минимального элемента в хвосте массива
-        if (minIdx != i) swap(a[i], a[minIdx]); // Перестановка минимального элемента на позицию i
+            if (a[j] < a[minIdx]) minIdx = j; // РџРѕРёСЃРє РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р° РІ С…РІРѕСЃС‚Рµ РјР°СЃСЃРёРІР°
+        if (minIdx != i) swap(a[i], a[minIdx]); // РџРµСЂРµСЃС‚Р°РЅРѕРІРєР° РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р° РЅР° РїРѕР·РёС†РёСЋ i
     }
 }
-// Последовательная сортировка вставками
+// РџРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅР°СЏ СЃРѕСЂС‚РёСЂРѕРІРєР° РІСЃС‚Р°РІРєР°РјРё
 static void insertionSortSeq(vector<int>& a) {
     int n = (int)a.size();
     for (int i = 1; i < n; i++) {
-        int key = a[i]; // Элемент, который нужно вставить
+        int key = a[i]; // Р­Р»РµРјРµРЅС‚, РєРѕС‚РѕСЂС‹Р№ РЅСѓР¶РЅРѕ РІСЃС‚Р°РІРёС‚СЊ
         int j = i - 1;
         while (j >= 0 && a[j] > key) {
-            a[j + 1] = a[j]; // Сдвиг элементов вправо
+            a[j + 1] = a[j]; // РЎРґРІРёРі СЌР»РµРјРµРЅС‚РѕРІ РІРїСЂР°РІРѕ
             j--;
         }
-        a[j + 1] = key; // Вставка элемента на найденную позицию
+        a[j + 1] = key; // Р’СЃС‚Р°РІРєР° СЌР»РµРјРµРЅС‚Р° РЅР° РЅР°Р№РґРµРЅРЅСѓСЋ РїРѕР·РёС†РёСЋ
     }
 }
-// Параллельная пузырьковая сортировка
+// РџР°СЂР°Р»Р»РµР»СЊРЅР°СЏ РїСѓР·С‹СЂСЊРєРѕРІР°СЏ СЃРѕСЂС‚РёСЂРѕРІРєР°
 static void bubbleSortOmpOddEven(vector<int>& a) {
-    int n = (int)a.size(); // Каждая фаза сравнивает независимые пары элементов
+    int n = (int)a.size(); // РљР°Р¶РґР°СЏ С„Р°Р·Р° СЃСЂР°РІРЅРёРІР°РµС‚ РЅРµР·Р°РІРёСЃРёРјС‹Рµ РїР°СЂС‹ СЌР»РµРјРµРЅС‚РѕРІ
     for (int phase = 0; phase < n; phase++) {
-        int start = phase % 2; // Чётная или нечётная фаза
+        int start = phase % 2; // Р§С‘С‚РЅР°СЏ РёР»Рё РЅРµС‡С‘С‚РЅР°СЏ С„Р°Р·Р°
 
 #ifdef _OPENMP
-#pragma omp parallel for // каждый поток обрабатывает свою пару элементов
+#pragma omp parallel for // РєР°Р¶РґС‹Р№ РїРѕС‚РѕРє РѕР±СЂР°Р±Р°С‚С‹РІР°РµС‚ СЃРІРѕСЋ РїР°СЂСѓ СЌР»РµРјРµРЅС‚РѕРІ
 #endif
         for (int i = start; i < n - 1; i += 2) {
-            if (a[i] > a[i + 1]) // Сравнение независимых пар элементов
+            if (a[i] > a[i + 1]) // РЎСЂР°РІРЅРµРЅРёРµ РЅРµР·Р°РІРёСЃРёРјС‹С… РїР°СЂ СЌР»РµРјРµРЅС‚РѕРІ
                 swap(a[i], a[i + 1]);
         }
     }
 }
-// Параллельная сортировка выбором
-// параллельно ищем минимум на хвосте, затем редукция по потокам вручную
+// РџР°СЂР°Р»Р»РµР»СЊРЅР°СЏ СЃРѕСЂС‚РёСЂРѕРІРєР° РІС‹Р±РѕСЂРѕРј
+// РїР°СЂР°Р»Р»РµР»СЊРЅРѕ РёС‰РµРј РјРёРЅРёРјСѓРј РЅР° С…РІРѕСЃС‚Рµ, Р·Р°С‚РµРј СЂРµРґСѓРєС†РёСЏ РїРѕ РїРѕС‚РѕРєР°Рј РІСЂСѓС‡РЅСѓСЋ
 static void selectionSortOmp(vector<int>& a) {
     int n = (int)a.size();
 
     for (int i = 0; i < n - 1; i++) {
-        int globalMinVal = a[i]; // Текущее минимальное значение
+        int globalMinVal = a[i]; // РўРµРєСѓС‰РµРµ РјРёРЅРёРјР°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
         int globalMinIdx = i;
 
 #ifdef _OPENMP
-        int threads = omp_get_max_threads(); // Количество потоков
+        int threads = omp_get_max_threads(); // РљРѕР»РёС‡РµСЃС‚РІРѕ РїРѕС‚РѕРєРѕРІ
         vector<int> localMinVal(threads, globalMinVal);
         vector<int> localMinIdx(threads, globalMinIdx);
 
 #pragma omp parallel
         {
-            int tid = omp_get_thread_num(); // ID потока
+            int tid = omp_get_thread_num(); // ID РїРѕС‚РѕРєР°
             int lVal = globalMinVal;
             int lIdx = globalMinIdx;
-            // Каждый поток ищет локальный минимум
+            // РљР°Р¶РґС‹Р№ РїРѕС‚РѕРє РёС‰РµС‚ Р»РѕРєР°Р»СЊРЅС‹Р№ РјРёРЅРёРјСѓРј
 #pragma omp for nowait
             for (int j = i + 1; j < n; j++) {
                 if (a[j] < lVal) {
@@ -103,11 +103,11 @@ static void selectionSortOmp(vector<int>& a) {
                     lIdx = j;
                 }
             }
-            // Сохраняем локальные результаты
+            // РЎРѕС…СЂР°РЅСЏРµРј Р»РѕРєР°Р»СЊРЅС‹Рµ СЂРµР·СѓР»СЊС‚Р°С‚С‹
             localMinVal[tid] = lVal;
             localMinIdx[tid] = lIdx;
         }
-        // Ручная редукция локальных минимумов
+        // Р СѓС‡РЅР°СЏ СЂРµРґСѓРєС†РёСЏ Р»РѕРєР°Р»СЊРЅС‹С… РјРёРЅРёРјСѓРјРѕРІ
         for (int t = 0; t < threads; t++) {
             if (localMinVal[t] < globalMinVal) {
                 globalMinVal = localMinVal[t];
@@ -115,7 +115,7 @@ static void selectionSortOmp(vector<int>& a) {
             }
         }
 #else
-        // Последовательный вариант (если OpenMP отключён)
+        // РџРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅС‹Р№ РІР°СЂРёР°РЅС‚ (РµСЃР»Рё OpenMP РѕС‚РєР»СЋС‡С‘РЅ)
         for (int j = i + 1; j < n; j++) {
             if (a[j] < globalMinVal) {
                 globalMinVal = a[j];
@@ -123,18 +123,18 @@ static void selectionSortOmp(vector<int>& a) {
             }
         }
 #endif
-        // Перестановка минимума
+        // РџРµСЂРµСЃС‚Р°РЅРѕРІРєР° РјРёРЅРёРјСѓРјР°
         if (globalMinIdx != i) swap(a[i], a[globalMinIdx]);
     }
 }
 
-// сортируем блоки вставками параллельно + потом параллельные merge-итерации
+// СЃРѕСЂС‚РёСЂСѓРµРј Р±Р»РѕРєРё РІСЃС‚Р°РІРєР°РјРё РїР°СЂР°Р»Р»РµР»СЊРЅРѕ + РїРѕС‚РѕРј РїР°СЂР°Р»Р»РµР»СЊРЅС‹Рµ merge-РёС‚РµСЂР°С†РёРё
 static void mergeRanges(vector<int>& a, vector<int>& tmp, int L, int M, int R) {
     int i = L, j = M, k = L;
     while (i < M && j < R) tmp[k++] = (a[i] <= a[j]) ? a[i++] : a[j++];
     while (i < M) tmp[k++] = a[i++];
     while (j < R) tmp[k++] = a[j++]; 
-    // Копирование обратно
+    // РљРѕРїРёСЂРѕРІР°РЅРёРµ РѕР±СЂР°С‚РЅРѕ
     for (int t = L; t < R; t++) a[t] = tmp[t];
 }
 
@@ -143,12 +143,12 @@ static void insertionSortOmpBlockMerge(vector<int>& a) {
     if (n <= 1) return;
     int T = 1;
 #ifdef _OPENMP
-    T = omp_get_max_threads(); // Число потоков
+    T = omp_get_max_threads(); // Р§РёСЃР»Рѕ РїРѕС‚РѕРєРѕРІ
 #endif
 
-    int block = max(1024, n / T); // Размер блока
+    int block = max(1024, n / T); // Р Р°Р·РјРµСЂ Р±Р»РѕРєР°
     int blocksCount = (n + block - 1) / block;
-    // Сортировка блоков
+    // РЎРѕСЂС‚РёСЂРѕРІРєР° Р±Р»РѕРєРѕРІ
 #ifdef _OPENMP
 #pragma omp parallel for
 #endif
@@ -165,7 +165,7 @@ static void insertionSortOmpBlockMerge(vector<int>& a) {
             a[j + 1] = key;
         }
     }
-    // Параллельное слияние блоков
+    // РџР°СЂР°Р»Р»РµР»СЊРЅРѕРµ СЃР»РёСЏРЅРёРµ Р±Р»РѕРєРѕРІ
     vector<int> tmp(n);
     for (int width = block; width < n; width *= 2) {
         int step = 2 * width;
@@ -183,30 +183,30 @@ static void insertionSortOmpBlockMerge(vector<int>& a) {
 
 static void runBenchForSize(int n) {
     vector<int> base(n);
-    fillRandom(base);// Генерация исходных данных
+    fillRandom(base);// Р“РµРЅРµСЂР°С†РёСЏ РёСЃС…РѕРґРЅС‹С… РґР°РЅРЅС‹С…
     auto testOne = [&](const char* name, void(*sortFn)(vector<int>&)) {
-        vector<int> a = base; // Копия массива для сравнения
+        vector<int> a = base; // РљРѕРїРёСЏ РјР°СЃСЃРёРІР° РґР»СЏ СЃСЂР°РІРЅРµРЅРёСЏ
         long long ms = timeMs([&] { sortFn(a); });
         cout << "  " << name << ": " << ms << " ms\n";
         };
     cout << "\nN = " << n << "\n";
-    testOne("Послд. Метод пузырьком", bubbleSortSeq);
-    testOne("Послд. Метод выбором", selectionSortSeq);
-    testOne("Послд. Метод вставкой", insertionSortSeq);
-    testOne("Парал. Метод пузырьком", bubbleSortOmpOddEven);
-    testOne("Парал. Метод выбором", selectionSortOmp);
-    testOne("Парал. Метод вставкой", insertionSortOmpBlockMerge);
+    testOne("РџРѕСЃР»Рґ. РњРµС‚РѕРґ РїСѓР·С‹СЂСЊРєРѕРј", bubbleSortSeq);
+    testOne("РџРѕСЃР»Рґ. РњРµС‚РѕРґ РІС‹Р±РѕСЂРѕРј", selectionSortSeq);
+    testOne("РџРѕСЃР»Рґ. РњРµС‚РѕРґ РІСЃС‚Р°РІРєРѕР№", insertionSortSeq);
+    testOne("РџР°СЂР°Р». РњРµС‚РѕРґ РїСѓР·С‹СЂСЊРєРѕРј", bubbleSortOmpOddEven);
+    testOne("РџР°СЂР°Р». РњРµС‚РѕРґ РІС‹Р±РѕСЂРѕРј", selectionSortOmp);
+    testOne("РџР°СЂР°Р». РњРµС‚РѕРґ РІСЃС‚Р°РІРєРѕР№", insertionSortOmpBlockMerge);
 }
-// Функция запуска  задачи
+// Р¤СѓРЅРєС†РёСЏ Р·Р°РїСѓСЃРєР°  Р·Р°РґР°С‡Рё
 void run_task2() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 #ifdef _OPENMP
-    cout << "\n[Task 2] Потоки = " << omp_get_max_threads() << "\n";
+    cout << "\n[Task 2] РџРѕС‚РѕРєРё = " << omp_get_max_threads() << "\n";
 #else
     cout << "\n[Task 2] OpenMP NOT enabled (macros _OPENMP not defined).\n";
 #endif
 
     vector<int> sizes = { 1000, 10000, 100000 };
-    for (int n : sizes) runBenchForSize(n); // Запуск тестов для каждого размера
+    for (int n : sizes) runBenchForSize(n); // Р—Р°РїСѓСЃРє С‚РµСЃС‚РѕРІ РґР»СЏ РєР°Р¶РґРѕРіРѕ СЂР°Р·РјРµСЂР°
     cout << "\n";} 
