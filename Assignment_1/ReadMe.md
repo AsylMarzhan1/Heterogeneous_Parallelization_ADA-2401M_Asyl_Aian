@@ -1,12 +1,12 @@
-Assignment 1 (C/C++ + OpenMP)
+*Assignment 1 (C/C++ + OpenMP)*
 
-Состав проекта:
+# Состав проекта:
 
 Файлы по решению Assignment 1 по дисциплине Heterogeneous Parallelization. 
 
-Магистрант: Asyl Aian. 
+## Магистрант: Asyl Aian. 
 
-Группа: ADA-2401M.
+## Группа: ADA-2401M.
 
 Задание выполнено соответственно по задачам указанному в задаче. 
 
