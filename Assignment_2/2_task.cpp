@@ -14,7 +14,7 @@ void task2() {
 
     // Генерация случайных чисел
     mt19937 rng(42);       // Генератор случайных чисел (фиксированный seed)
-    uniform_int_distribution<int> dist(-100000, 100000); // Диапазон чисел
+    uniform_int_distribution<int> dist(0, 100000); // Диапазон чисел
 
     for (int i = 0; i < N; i++) {
         arr[i] = dist(rng);    // Заполняем массив случайными числами
